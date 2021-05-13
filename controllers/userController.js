@@ -1,62 +1,45 @@
-/*const users = [
-    {id: 1, name: "user1", email: "user1@mail.ru"},
-    {id: 2, name: "user2", email: "user2@gmail.com"},
-    {id: 3, name: "user3", email: "user3@bk.ru"},
-]*/
-const db = require('../modules/database');
+
+
 const User = require('../models/users');
 
+const Joi = require('joi');
 
 function getUsers(req, res) {
     User.findAll()
         .then(function(users) {
-            return res.send(users);
+             res.send(users);
         })
-        .catch(function(err) {
-            return res.status(404).json({
+        .catch(function() {
+             res.status(404).json({
                 "error": {
                     "code": 404,
                     "message": "Can not find users"
                 }
             })
         })
-};
-/*
-function findGigs(req, res) {
-    gigDao.findAll().
-    then((data) => {
-        res.send(data);
-    })
-        .catch((error) => {
-            console.log(error);
-        });
-}*/
+}
+
 
 function getSingleUser(req, res) {
-    const user = User.findById(req.params.id)
-        .then(function(user) {
-            return res.send(user);
+     User.findByPk(req.params.id).
+        then(function(user) {
+            if(!user) {
+                throw new Error('User not found');
+            }
+             res.send(user);
         })
-        .catch(function (err) {
-            return res.status(404).json({
+        .catch(function(error) {
+            res.status(404).json({
                 "error": {
                     "code": 404,
-                    "message": "The user with the given ID was not found"
+                    "message": error.message
                 }
             })
         })
-};
-/*
-function findGigById(req, res) {
-    gigDao.findById(req.params.id).
-    then((data) => {
-        res.send(data);
-    })
-        .catch((error) => {
-            console.log(error);
-        });
 }
-*/
+
+
+
 function addUser(req, res) {
     const schema = Joi.object({
         name: Joi.string().required(),
@@ -66,42 +49,30 @@ function addUser(req, res) {
     const result = schema.validate(req.body);
 
     const user = {
-        id: users.length + 1,
         name: req.body.name,
         email: req.body.email
     };
 
     User.create(user)
         .then(function(user) {
-            return res.send(user);
-    })
-        .catch(function(err) {
-            return res.status(400).send(result.error.details[0].message);
+             res.send(user);
         })
-
-};
-/*
-function addGig(req, res) {
-    let gig = req.body;
-    gigDao.create(gig).
-    then((data) => {
-        res.send(data);
+    .catch(function () {
+        res.status(500).json(result.error.details[0]);
     })
-        .catch((error) => {
-            console.log(error);
-        });
-}*/
+}
+
 
 function deleteUser(req, res) {
-    const user = User.deleteById(req.params.id)
-        .then(function(data)  {
-            return res.status(200).json({
-                message: "User deleted successfully",
-                user: data
+    User.destroy({where: {id: req.params.id}})
+        .then(function(user)  {
+             res.status(200).json({
+                message: `User with ID ${req.params.id} deleted successfully`,
+                user
             })
         })
-        .catch(function(err) {
-            return res.status(404).json({
+        .catch(function() {
+             res.status(404).json({
                 "error": {
                     "code": 404,
                     "message": "The user with the given ID was not found"
@@ -110,23 +81,24 @@ function deleteUser(req, res) {
         })
 
 }
-/*
-function deleteById(req, res) {
-    gigDao.deleteById(req.params.id).
-    then((data) => {
+
+function updateUser(req, res) {
+    User.update(req.body.name, req.body.email).
+    then(function(data) {
         res.status(200).json({
-            message: "Gig deleted successfully",
+            message: "User updated successfully",
             gig: data
         })
     })
-        .catch((error) => {
-            console.log(error);
+        .catch(function(error) {
+            res.status(404).json(error);
         });
-}*/
+}
 
 module.exports = {
     getUsers,
     getSingleUser,
     addUser,
-    deleteUser
+    deleteUser,
+    updateUser
 }
