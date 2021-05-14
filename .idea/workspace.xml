@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="38e4f290-3585-4004-a06e-bb79d1be85ec" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/userController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/userController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/users.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/userRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/userRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/userServices.js" beforeDir="false" afterPath="$PROJECT_DIR$/services/userServices.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/userAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/userAPI.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -67,6 +62,7 @@
       <workItem from="1620987898503" duration="2141000" />
       <workItem from="1620990653372" duration="1268000" />
       <workItem from="1620992389515" duration="2569000" />
+      <workItem from="1620995747418" duration="751000" />
     </task>
     <servers />
   </component>
