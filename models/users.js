@@ -10,8 +10,9 @@ const User = db.define('user', {
     name: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique: true,
         validate: {
-            notEmpty: {msg: 'Name must not be empty'}
+            notEmpty: {msg: 'Name must not be empty'},
         }
     },
     email: {
@@ -20,7 +21,7 @@ const User = db.define('user', {
         allowNull: false,
         validate: {
             notEmpty: {msg: 'Email must not be empty'},
-            isEmail: {msg: 'Must be a vali email address'}
+            isEmail: {msg: 'Must be a vali email address'},
         }
     }
 }, {

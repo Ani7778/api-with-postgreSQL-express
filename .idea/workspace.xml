@@ -2,12 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="38e4f290-3585-4004-a06e-bb79d1be85ec" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/userController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/userController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/users.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/database.js" beforeDir="false" afterPath="$PROJECT_DIR$/modules/database.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/userRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/userRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/userServices.js" beforeDir="false" afterPath="$PROJECT_DIR$/services/userServices.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/userAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/userAPI.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -61,7 +62,11 @@
       <workItem from="1620815706867" duration="3915000" />
       <workItem from="1620823418302" duration="1709000" />
       <workItem from="1620826224584" duration="3780000" />
-      <workItem from="1620833506274" duration="13587000" />
+      <workItem from="1620833506274" duration="23408000" />
+      <workItem from="1620918446532" duration="16018000" />
+      <workItem from="1620987898503" duration="2141000" />
+      <workItem from="1620990653372" duration="1268000" />
+      <workItem from="1620992389515" duration="2569000" />
     </task>
     <servers />
   </component>
@@ -79,17 +84,5 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/controllers/userController.js</url>
-          <line>9</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
