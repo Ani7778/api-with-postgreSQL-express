@@ -1,6 +1,6 @@
 const express = require('express');
 const userController = require('../controllers/userController');
-const Joi = require('joi');
+const validation = require('../utils/validateUser');
 
 const router = express.Router();
 
@@ -40,7 +40,7 @@ router.get('/:id', function(req, res) {
 });
 
 router.post('/', function (req, res) {
-    const result = validateUser(req.body);
+    const result = validation(req.body);
 
     const user = {
         name: req.body.name,
@@ -78,7 +78,8 @@ router.delete('/:id', function (req, res) {
 });
 
 router.put('/:id', function (req, res) {
-    const result = validateUser(req.body);
+    const result = validation(req.body);
+
     if(result.error) {
         res.status(404).json({
             "error": {
@@ -88,8 +89,10 @@ router.put('/:id', function (req, res) {
         });
     }
 
-    const user = {name: req.body.name,
-    email: req.body.email};
+    const user = {
+        name: req.body.name,
+        email: req.body.email
+    };
 
     userController.updateUser(req.params.id)
         .then(function() {
@@ -111,14 +114,5 @@ router.put('/:id', function (req, res) {
             });
         });
 });
-
-function validateUser(user) {
-    const schema = Joi.object({
-        name: Joi.string().required(),
-        email: Joi.string().required().email(),
-    });
-
-    return schema.validate(user);
-}
 
 module.exports = router;
