@@ -1,6 +1,5 @@
 const userService = require('../services/userServices');
 
-
 function getUsers() {
      return userService.getUsers();
 }
@@ -18,8 +17,8 @@ function deleteUser(id) {
 
 }
 
-function updateUser(id) {
-    return userService.updateUser(id);
+function updateUser(id, updateUser) {
+    return userService.updateUser(id, updateUser);
 }
 
 module.exports = {

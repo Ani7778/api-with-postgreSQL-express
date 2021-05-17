@@ -9,4 +9,16 @@ function validateUser(user) {
     return schema.validate(user);
 }
 
-module.exports = validateUser;
+function validateUpdatedUser(user) {
+    const schema = Joi.object({
+        name: Joi.string(),
+        email: Joi.string().email(),
+    });
+
+    return schema.validate(user);
+}
+
+module.exports = {
+    validateUser,
+    validateUpdatedUser
+};
