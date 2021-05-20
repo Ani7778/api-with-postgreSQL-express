@@ -21,7 +21,14 @@ const User = db.define('user', {
         allowNull: false,
         validate: {
             notEmpty: {msg: 'Email must not be empty'},
-            isEmail: {msg: 'Must be a vali email address'},
+            isEmail: {msg: 'Must be a valid email address'},
+        }
+    },
+    password: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: {msg: 'Password must not be empty'},
         }
     }
 }, {

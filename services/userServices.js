@@ -13,7 +13,7 @@ function addUser(user) {
 }
 
 function deleteUser(id) {
-   return User.destroy({where: {id}});
+   return User.destroy({where: id});
 }
 
 function updateUser(id, updateUser) {
@@ -26,10 +26,15 @@ function updateUser(id, updateUser) {
    }
 }
 
+function loginUser(email) {
+   return User.findOne({where: email});
+}
+
 module.exports = {
    getUsers,
    getSingleUser,
    addUser,
    deleteUser,
-   updateUser
+   updateUser,
+   loginUser
 };

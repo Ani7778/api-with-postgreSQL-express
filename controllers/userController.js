@@ -21,10 +21,15 @@ function updateUser(id, updateUser) {
     return userService.updateUser(id, updateUser);
 }
 
+function loginUser(email) {
+    return userService.loginUser(email)
+}
+
 module.exports = {
     getUsers,
     getSingleUser,
     addUser,
     deleteUser,
-    updateUser
+    updateUser,
+    loginUser
 }
