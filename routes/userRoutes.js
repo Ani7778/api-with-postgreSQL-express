@@ -13,7 +13,7 @@ router.get('/',  generateAccessToken.authenticateToken, async function(req, res)
     if(!users) {
         res.status(404).json({
             "error": {
-                "code": 404,
+                "code": "USERS_NOT_FOUND",
                 "message": 'Users not found'
             }
         });
@@ -25,7 +25,7 @@ router.get('/:id',async function(req, res) {
     if(!user) {
         res.status(404).json({
             "error": {
-                "code": 404,
+                "code": "USER_NOT_FOUND",
                 "message": "User not found"
             }
         });
@@ -39,7 +39,7 @@ router.post('/', async function (req, res) {
     if(result.error) {
         res.status(400).json({
             "error": {
-                "code": 400,
+                "code": "INVALID_PARAMETERS",
                 "message": result.error.details[0].message
             }
         });
@@ -65,7 +65,7 @@ router.post('/login', async function (req, res) {
     if (!user) {
        return res.status(400).json({
            "error": {
-               "code": 400,
+               "code": "USER_NOT_FOUND",
                "message": `User ${email} not found`
            }
        });
@@ -76,7 +76,7 @@ router.post('/login', async function (req, res) {
     if(!validPassword) {
         res.status(400).json({
             "error": {
-                "code": 400,
+                "code": "INCORRECT_PASSWORD",
                 "message": "Password is not correct"
             }
         });
@@ -92,7 +92,7 @@ router.delete('/:id', async function (req, res) {
     if (!deletedUser) {
         res.status(404).json({
             "error": {
-                "code": 404,
+                "code": "USER_NOT_FOUND",
                 "message": "User not found"
             }
         })
@@ -108,7 +108,7 @@ router.put('/:id', async function (req, res) {
     if(result.error) {
         res.status(400).json({
             "error": {
-                "code": 400,
+                "code": "INVALID_PARAMETERS",
                 "message": result.error.details[0].message
             }
         });
