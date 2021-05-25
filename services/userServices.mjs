@@ -1,4 +1,4 @@
-import User from '../models/users';
+import User from '../models/users.mjs';
 
 function getUsers() {
    return User.findAll();
@@ -13,7 +13,7 @@ function addUser(user) {
 }
 
 function deleteUser(id) {
-   return User.destroy({where: id});
+   return User.destroy({where: {id: id}});
 }
 
 function updateUser(id, updateUser) {

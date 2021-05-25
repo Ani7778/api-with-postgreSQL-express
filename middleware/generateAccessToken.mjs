@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-const {secret} = require('../config');
+import jwt from'jsonwebtoken';
+//import secret from '../config.mjs';
 
 async function generateAccessToken(id, name) {
     const payload = {
@@ -8,7 +8,7 @@ async function generateAccessToken(id, name) {
         exp: new Date().setMinutes(new Date().getMinutes() + 10),
     }
 
-    const accessToken = await jwt.sign(payload, secret);
+    const accessToken = await jwt.sign(payload, "SECRET_KEY_RANDOM");
     return accessToken;
 }
 
@@ -26,7 +26,7 @@ async function authenticateToken(req, res, next) {
             })
         }
 
-        const decodedData = await jwt.verify(token, secret)
+        const decodedData = await jwt.verify(token, "SECRET_KEY_RANDOM")
 
         const actualTimeInSeconds = new Date().getTime();
 
@@ -54,7 +54,7 @@ async function authenticateToken(req, res, next) {
     }
 }
 
-module.exports = {
+export default {
     generateAccessToken,
     authenticateToken
 };

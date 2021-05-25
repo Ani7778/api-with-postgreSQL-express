@@ -1,0 +1,11 @@
+swagger /users/:
+       get:
+           summary: Get all users
+           tags: [Users]
+          responses:
+               "200":
+                   description: Get all users
+                   content:
+                  application/json:
+                  schema:
+                   $ref: '#/components/schemas/User'

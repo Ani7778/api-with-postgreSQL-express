@@ -1,5 +1,5 @@
-const Sequelize  = require('sequelize');
-const db = require('../modules/database');
+import Sequelize from 'sequelize';
+import db from '../modules/database.mjs';
 
 const User = db.define('user', {
     id: {
@@ -35,4 +35,4 @@ const User = db.define('user', {
     timestamps: false
 })
 
-module.exports = User;
+export default User;

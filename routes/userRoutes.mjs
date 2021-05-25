@@ -1,126 +1,51 @@
-/**
- * @swagger
- *      components:
- *      schemas:
- *          User:
- *              type: object
- *              required:
- *                  - name
- *                  - email
- *                  - password
- *              properties:
- *                  id:
- *                      type: integer
- *                      dedescription: The auto-generated id of the user.
- *                  name:
- *                      type: string
- *                      description: Name of the user.
- *                  email:
- *                      type: string
- *                      description: Email of the user.
- */
+// /**
+//  * @swagger
+//  *      components:
+//  *      schemas:
+//  *          User:
+//  *              type: object
+//  *              required:
+//  *                  - name
+//  *                  - email
+//  *                  - password
+//  *              properties:
+//  *                  id:
+//  *                      type: integer
+//  *                      dedescription: The auto-generated id of the user.
+//  *                  name:
+//  *                      type: string
+//  *                      description: Name of the user.
+//  *                  email:
+//  *                      type: string
+//  *                      description: Email of the user.
+//  */
 
-/**
- * @swagger
- *      tags:
- *          name: Users
- *          description: User API
- */
+// /**
+//  * @swagger
+//  *      tags:
+//  *          name: Users
+//  *          description: User API
+//  */
 
-/**
- * @swagger
- *      path:
- *          /users/:
- *              get:
- *                  summary: Get all users
- *                  tags: [Users]
- *                  responses:
- *                      "200":
- *                          description: Get all users
- *                          content:
- *                              application/json:
- *                                  schema:
- *                                      $ref: '#/components/schemas/User'
- *               post:
- *                  summary: Create new user
- *                  tags: [Users]
- *                  requestBody:
- *                      required: true
- *                      content:
- *                          application/json:
- *                              schema:
- *                                  $ref: '#/components/schemas/User'
- *                  responses:
- *                      "200":
- *                          description: Create new user
- *                          content:
- *                              application/json:
- *                                  schema:
- *                                      $ref: '#/components/schemas/User'
- *           /users/{id}:
- *               get:
- *                  summary: Get user by id
- *                  tags: [Users]
- *                  parameters:
- *                      - in: path
- *                        name: id
- *                        schema:
- *                           type: integer
- *                        required: true
- *                        description: The user id
- *                  responses:
- *                      "200":
- *                          description: Get user by id
- *                          content:
- *                              application/json:
- *                                  schema:
- *                                      $ref: '#/components/schemas/User'
- *                       "404":
- *                           description: User not found
- *               put:
- *                  summary: Update user
- *                  tags: [Users]
- *                  parameters:
- *                      - in: path
- *                        name: id
- *                        schema:
- *                           type: integer
- *                        required: true
- *                        description: The user id
- *                  requestBody:
- *                       required: true
- *                       content:
- *                           application/json:
- *                              schema:
- *                                  $ref: '#/components/schemas/User'
- *                  responses:
- *                      "200":
- *                          description: Update was successful
- *               delete:
- *                  summary: Delete user by id
- *                  tags: [Users]
- *                  parameters:
- *                      - in: path
- *                        name: id
- *                        schema:
- *                           type: integer
- *                        required: true
- *                        description: The user id
- *                  responses:
- *                      "200":
- *                          description: Delete was succesfull
- *                       "404":
- *                           description: User not found
- */
-
-
-const express = require('express');
-const userController = require('../controllers/userController');
-const validation = require('../utils/validateUser');
-const bcrypt = require('bcrypt');
-const generateAccessToken = require('../middleware/generateAccessToken');
+import express from 'express';
+import userController from '../controllers/userController.mjs';
+import validation from'../utils/validateUser.mjs';
+import bcrypt from 'bcrypt';
+import generateAccessToken from '../middleware/generateAccessToken.mjs';
 
 const router = express.Router();
+
+/**
+ * @swagger
+ * /users/:
+ *      get:
+ *          summary: Get all users
+ *          responses:
+ *              "200":
+ *                  description: Get all users
+ *              "404":
+ *                  description: No authorized user
+ */
 
 router.get('/',  generateAccessToken.authenticateToken, async function(req, res) {
     const users = await userController.getUsers();
@@ -136,6 +61,24 @@ router.get('/',  generateAccessToken.authenticateToken, async function(req, res)
     }
 });
 
+/**
+ * @swagger
+ * /users/{id}:
+ *      get:
+ *          summary: Get user by id
+ *          parameters:
+ *            - in: path
+ *              name: id
+ *              type: integer
+ *              required: true
+ *              description: The user id
+ *          responses:
+ *              "200":
+ *                  description: Get user by id
+ *              "404":
+ *                  description: User not found
+ */
+
 router.get('/:id',async function(req, res) {
     const user = await userController.getSingleUser(req.params.id);
     if(!user) {
@@ -148,6 +91,22 @@ router.get('/:id',async function(req, res) {
     }
     res.status(200).json(user);
 });
+
+/**
+ * @swagger
+ * /users/:
+ *      post:
+ *          summary: Create new user
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  application/json:
+ *          responses:
+ *              "200":
+ *                  description: Create new user
+ *              "400":
+ *                  description: Invalid parameters
+ */
 
 router.post('/', async function (req, res) {
     const result = await validation.validateUser(req.body);
@@ -174,12 +133,30 @@ router.post('/', async function (req, res) {
     res.status(200).json(addedUser);
 });
 
+/**
+ * @swagger
+ * /users/login:
+ *      post:
+ *          summary: Get access token
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  application/json:
+ *          responses:
+ *              "200":
+ *                  description: Successful acces token
+ *              "404":
+ *                  description: User not found
+ *              "400":
+ *                  description: Password is not correct
+ */
+
 router.post('/login', async function (req, res) {
     const {email, password} = req.body
     const user = await userController.loginUser({email});
 
     if (!user) {
-        return res.status(400).json({
+        return res.status(404).json({
             "error": {
                 "code": "USER_NOT_FOUND",
                 "message": `User ${email} not found`
@@ -202,6 +179,23 @@ router.post('/login', async function (req, res) {
     return res.json({accessToken})
 })
 
+/**
+ * @swagger
+ * /users/{id}:
+ *      delete:
+ *          summary: Delete user by id
+ *          parameters:
+ *            - in: path
+ *              name: id
+ *              type: integer
+ *              required: true
+ *              description: The user id
+ *          responses:
+ *              "200":
+ *                  description: Successful delete
+ *              "404":
+ *                  description: User not found
+ */
 
 router.delete('/:id', async function (req, res) {
     const deletedUser = await userController.deleteUser(req.params.id);
@@ -217,6 +211,28 @@ router.delete('/:id', async function (req, res) {
         message: `User with ID ${req.params.id} and deleted successfully`,
     })
 })
+
+/**
+ * @swagger
+ * /users/{id}:
+ *      put:
+ *          summary: Update user
+ *          parameters:
+ *            - in: path
+ *              name: id
+ *              type: integer
+ *              required: true
+ *              description: The user id
+ *          requestBody:
+ *              required: true
+ *              content:
+ *              application/json:
+ *          responses:
+ *              "200":
+ *                  description: Successful update
+ *              "400":
+ *                  description: Invalid parameters
+ */
 
 router.put('/:id', async function (req, res) {
     const result = await validation.validateUpdatedUser(req.body);
@@ -248,4 +264,4 @@ router.put('/:id', async function (req, res) {
     })
 });
 
-module.exports = router;
+export default router;

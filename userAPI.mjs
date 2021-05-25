@@ -9,6 +9,14 @@ import swaggerUi from 'swagger-ui-express';
 
 const port = process.env.PORT;
 app.use(express.json());
+
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', '*');
+    res.header('Access-Control-Allow-Headers', '*');
+    next();
+})
+
 app.use('/users', userRoutes);
 
 const options = {
@@ -28,13 +36,13 @@ const options = {
             },
         ],
     },
-    apis: ["./routes/userRoutes.js"]
+    apis: ["./routes/userRoutes.mjs"]
 };
 
-const specs = swaggerJsdoc(options);
+const specs = await swaggerJsdoc(options);
 
 app.use(
-    "/users",
+    "/api",
     swaggerUi.serve,
     swaggerUi.setup(specs)
 );

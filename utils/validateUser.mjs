@@ -1,4 +1,4 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
 function validateUser(user) {
     const schema = Joi.object({
@@ -19,7 +19,7 @@ function validateUpdatedUser(user) {
     return schema.validate(user);
 }
 
-module.exports = {
+export default {
     validateUser,
     validateUpdatedUser
 };
