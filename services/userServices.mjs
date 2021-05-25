@@ -1,4 +1,4 @@
-const User = require('../models/users');
+import User from '../models/users';
 
 function getUsers() {
    return User.findAll();
@@ -30,7 +30,7 @@ function loginUser(email) {
    return User.findOne({where: email});
 }
 
-module.exports = {
+export default {
    getUsers,
    getSingleUser,
    addUser,
