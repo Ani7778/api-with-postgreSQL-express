@@ -76,9 +76,8 @@ router.put('/:id', async function (req, res) {
 
     if(!updatedUser) {
         const addedUser = await userController.addUser(user);
-        res.status(200).json(addedUser);
+        res.success = {data: addedUser};
     }
-
 
     res.success = {data: `User updated successfully`};
 });
