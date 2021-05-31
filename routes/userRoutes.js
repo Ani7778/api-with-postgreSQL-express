@@ -9,28 +9,10 @@ const router = express.Router();
 router.get('/',  generateAccessToken.authenticateToken, async function(req, res) {
     const users = await userController.getUsers();
     res.status(200).json(users);
-
-    if(!users) {
-        res.status(404).json({
-            "error": {
-                "code": "USERS_NOT_FOUND",
-                "message": 'Users not found'
-            }
-        });
-    }
 });
 
 router.get('/:id',async function(req, res) {
     const user = await userController.getSingleUser(req.params.id);
-
-    if(!user) {
-        res.status(404).json({
-            "error": {
-                "code": "USER_NOT_FOUND",
-                "message": "User not found"
-            }
-        });
-    }
     res.status(200).json(user);
 });
 

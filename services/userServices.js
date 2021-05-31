@@ -5,10 +5,16 @@ const sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
 const { extractSequlizeResponse } = require('../utils/helperFunctions');
 const generateAccessToken = require('../middleware/generateAccessToken');
+const ApiError = require('../middleware/ApiError');
 
 async function getUsers() {
    //return User.findAll();
    const result = await db.query('SELECT id, name, email FROM users', {type: sequelize.QueryTypes.SELECT});
+
+   if(result.length === 0) {
+      throw ApiError.notFound("Users not found");
+   }
+
    console.log(result);
    return result;
 }
@@ -21,7 +27,7 @@ async function getSingleUser(id) {
    );
 
    if(result.length === 0) {
-      throw new Error("User not found");
+      throw ApiError.notFound("User not found");
    }
 
    console.log(result);
@@ -50,25 +56,10 @@ async function loginUser(email, password) {
    const accessToken = await generateAccessToken.generateAccessToken(userData.id, userData.name);
 
    if (!validPassword) {
-       throw new Error("Password is not correct")
+       throw ApiError.badRequest("Password is not correct");
    }
 
    return {accessToken};
-}
-
-async function getSingleUser(id) {
-   // return User.findByPk(id);
-   const result = await db.query(
-       `SELECT id, name, email FROM users WHERE id = '${id}'`,
-       {type: sequelize.QueryTypes.SELECT}
-   );
-
-   if(result.length === 0) {
-      throw new Error("User not found");
-   }
-
-   console.log(result);
-   return result;
 }
 
 async function deleteUser(id) {
@@ -76,7 +67,7 @@ async function deleteUser(id) {
    const result = await db.query(`DELETE FROM users WHERE id = '${id}'`, {type: sequelize.QueryTypes.DELETE});
 
    if(result.length === 0) {
-      throw new Error("User not found");
+      throw ApiError.notFound("User not found");
    }
 
    console.log(result);
