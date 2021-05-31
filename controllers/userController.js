@@ -1,35 +1,39 @@
 const userService = require('../services/userServices');
 
-function getUsers() {
-     return userService.getUsers();
+async function getUsers() {
+     const result = await userService.getUsers();
+     return result;
 }
 
-function getSingleUser(id) {
-     return userService.getSingleUser(id);
+async function getSingleUser(id) {
+     const result = await userService.getSingleUser(id);
+     return result;
 }
 
-function addUser(user) {
-   return userService.addUser(user);
+async function addUser(name, email, password) {
+   const result = await userService.addUser(name, email, password);
+   return result;
 }
 
-function deleteUser(id) {
-    return userService.deleteUser(id);
-
+async function loginUser(email, password) {
+    const result = await userService.loginUser(email, password);
 }
 
-function updateUser(id, updateUser) {
-    return userService.updateUser(id, updateUser);
+async function deleteUser(id) {
+    const result = await userService.deleteUser(id);
+    return result;
 }
 
-function loginUser(email) {
-    return userService.loginUser(email)
+async function updateUser(id, updateUser) {
+    const result = await userService.updateUser(id, updateUser);
+    return result;
 }
 
 module.exports = {
     getUsers,
     getSingleUser,
     addUser,
+    loginUser,
     deleteUser,
-    updateUser,
-    loginUser
+    updateUser
 }

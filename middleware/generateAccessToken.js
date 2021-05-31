@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const {secret} = require('../config');
+const {secret} = require('../tokenInfo');
 
 async function generateAccessToken(id, name) {
     const payload = {

@@ -2,8 +2,13 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.addColumn('users', 'password',{ type: Sequelize.STRING});
-  },.js
+    console.log("Migrate CH column")
+    await queryInterface.changeColumn('users', 'email', {
+      type: Sequelize.STRING,
+      unique: {msg: 'Email must be unique'},
+      allowNull: false
+    }).catch(console.error);
+  },
 
   // down: async (queryInterface, Sequelize) => {
   //   /**
@@ -14,4 +19,3 @@ module.exports = {
   //    */
   // }
 };
-
