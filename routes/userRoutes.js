@@ -8,12 +8,12 @@ const router = express.Router();
 
 router.get('/',  generateAccessToken.authenticateToken, async function(req, res) {
     const users = await userController.getUsers();
-    res.status(200).json(users);
+    res.success = {data: users};
 });
 
 router.get('/:id',async function(req, res) {
     const user = await userController.getSingleUser(req.params.id);
-    res.status(200).json(user);
+    res.success = {data: user};
 });
 
 router.post('/', async function (req, res) {
@@ -38,23 +38,21 @@ router.post('/', async function (req, res) {
     // };
 
     const addedUser = await userController.addUser(req.body.name, req.body.email, hashPassword);
-    res.status(200).json(addedUser);
+    res.success = {data: addedUser};
 });
 
 router.post('/login', async function (req, res) {
     const {email, password} = req.body
     const result = await userController.loginUser(email, password);
 
-    res.status(200).json(result);
+    res.success = {data: result};
 })
 
 
 router.delete('/:id', async function (req, res) {
     const deletedUser = await userController.deleteUser(req.params.id);
 
-    res.status(200).json({
-        message: `User with ID ${req.params.id} and deleted successfully`,
-    })
+    res.success = {data: `User with ID ${req.params.id} and deleted successfully`};
 })
 
 router.put('/:id', async function (req, res) {
@@ -81,10 +79,8 @@ router.put('/:id', async function (req, res) {
         res.status(200).json(addedUser);
     }
 
-    res.status(200).json({
-        message: "User updated successfully",
-        user: user
-    })
+
+    res.success = {data: `User updated successfully`};
 });
 
 module.exports = router;
