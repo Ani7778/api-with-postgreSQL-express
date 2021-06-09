@@ -1,7 +1,7 @@
 const userService = require('../services/userServices');
 
-async function getUsers() {
-     const result = await userService.getUsers();
+async function getUsers(limit, offset) {
+     const result = await userService.getUsers(limit, offset);
      return result;
 }
 
@@ -10,13 +10,14 @@ async function getSingleUser(id) {
      return result;
 }
 
-async function addUser(name, email, password) {
-   const result = await userService.addUser(name, email, password);
+async function addUser(user) {
+   const result = await userService.addUser(user);
    return result;
 }
 
 async function loginUser(email, password) {
     const result = await userService.loginUser(email, password);
+    return result;
 }
 
 async function deleteUser(id) {

@@ -3,20 +3,28 @@ const userController = require('../controllers/userController');
 const validation = require('../utils/validateUser');
 const generateAccessToken = require('../middleware/generateAccessToken');
 const bcrypt = require('bcrypt');
+const apiSuccessHandler = require('../middleware/apiSuccessHandler');
 
 const router = express.Router();
 
-router.get('/',  generateAccessToken.authenticateToken, async function(req, res) {
-    const users = await userController.getUsers();
-    res.success = {data: users};
+router.get('/', generateAccessToken.authenticateToken ,async function(req, res, next) {
+    let { page, size} = req.query;
+
+    const result = await userController.getUsers({limit: size, offset: page});
+
+    res.respData = result;
+
+    next();
 });
 
-router.get('/:id',async function(req, res) {
-    const user = await userController.getSingleUser(req.params.id);
-    res.success = {data: user};
+router.get('/:id',async function(req, res, next) {
+    const result = await userController.getSingleUser(req.params.id);
+    res.respData = result;
+
+    next();
 });
 
-router.post('/', async function (req, res) {
+router.post('/', async function (req, res, next) {
     const result = await validation.validateUser(req.body);
 
     if(result.error) {
@@ -31,31 +39,37 @@ router.post('/', async function (req, res) {
     const password = req.body.password;
     const hashPassword = bcrypt.hashSync(password, 7);
 
-    // const user = {
-    //     name: req.body.name,
-    //     email: req.body.email,
-    //     password: hashPassword
-    // };
+    const user = {
+        name: req.body.name,
+        email: req.body.email,
+        password: hashPassword
+    };
 
-    const addedUser = await userController.addUser(req.body.name, req.body.email, hashPassword);
-    res.success = {data: addedUser};
+    const addedUser = await userController.addUser(user);
+    res.respData = addedUser;
+
+    next();
 });
 
-router.post('/login', async function (req, res) {
+router.post('/login', async function (req, res, next) {
     const {email, password} = req.body
     const result = await userController.loginUser(email, password);
 
-    res.success = {data: result};
+    res.respData = result;
+
+    next();
 })
 
 
-router.delete('/:id', async function (req, res) {
-    const deletedUser = await userController.deleteUser(req.params.id);
+router.delete('/:id', async function (req, res, next) {
+    const result = await userController.deleteUser(req.params.id);
 
-    res.success = {data: `User with ID ${req.params.id} and deleted successfully`};
+    res.respData = result;
+
+    next();
 })
 
-router.put('/:id', async function (req, res) {
+router.put('/:id', async function (req, res, next) {
     const result = await validation.validateUpdatedUser(req.body);
 
     if(result.error) {
@@ -76,10 +90,12 @@ router.put('/:id', async function (req, res) {
 
     if(!updatedUser) {
         const addedUser = await userController.addUser(user);
-        res.success = {data: addedUser};
+        res.respData = addedUser;
     }
 
-    res.success = {data: `User updated successfully`};
+    res.respData = updatedUser;
+
+    next();
 });
 
 module.exports = router;

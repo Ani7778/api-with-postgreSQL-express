@@ -5,7 +5,7 @@ async function generateAccessToken(id, name) {
     const payload = {
         id,
         name,
-        exp: new Date().setMinutes(new Date().getMinutes() + 10),
+        exp: new Date().setMinutes(new Date().getMinutes() + 60),
     }
 
     const accessToken = await jwt.sign(payload, secret);
