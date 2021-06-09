@@ -1,6 +1,7 @@
 const { QueryTypes } = require('sequelize');
 const { db: { models: { user: Users } } } = require('../models/index');
 const sequelize = require('sequelize');
+const Op = sequelize.Op;
 const bcrypt = require('bcrypt');
 const { extractSequlizeResponse } = require('../utils/helperFunctions');
 const generateAccessToken = require('../middleware/generateAccessToken');
@@ -15,7 +16,18 @@ const { DEFAULT_PAGE, DEFAULT_LIMIT } = require('../utils/constants');
  */
 
 async function getUsers({limit = DEFAULT_LIMIT, offset = DEFAULT_PAGE}) {
-   const result = await Users.findAndCountAll({limit, offset: (offset - 1) * limit});
+   const result = await Users.findAndCountAll({
+      where: {
+         name: {
+            [Op.like]: '%e%'
+         }
+      },
+      order: [
+         ['email'],
+      ],
+      limit,
+      offset: (offset - 1) * limit
+   });
 
    return result;
 }
