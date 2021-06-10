@@ -17,7 +17,7 @@ const { DEFAULT_PAGE, DEFAULT_LIMIT } = require('../utils/constants');
 
 async function getUsers({limit = DEFAULT_LIMIT, offset = DEFAULT_PAGE}) {
    const result = await Users.findAndCountAll({
-      attributes: ['id', 'name', 'email']
+      attributes: ['id', 'name', 'email'],
       where: {
          name: {
             [Op.like]: '%e%'
