@@ -8,9 +8,9 @@ const apiSuccessHandler = require('../middleware/apiSuccessHandler');
 const router = express.Router();
 
 router.get('/', generateAccessToken.authenticateToken ,async function(req, res, next) {
-    let { page, size} = req.query;
+    let { page, size, attribute} = req.query;
 
-    const result = await userController.getUsers({limit: size, offset: page});
+    const result = await userController.getUsers({limit: size, offset: page, attribute});
 
     res.respData = result;
 

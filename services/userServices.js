@@ -15,16 +15,16 @@ const { DEFAULT_PAGE, DEFAULT_LIMIT } = require('../utils/constants');
  * @returns {Promise<*>}
  */
 
-async function getUsers({limit = DEFAULT_LIMIT, offset = DEFAULT_PAGE}) {
+async function getUsers({limit = DEFAULT_LIMIT, offset = DEFAULT_PAGE, attribute}) {
    const result = await Users.findAndCountAll({
-      attributes: ['id', 'name', 'email'],
+      attributes:  ['id', 'name', 'email'],
       where: {
          name: {
             [Op.like]: '%e%'
          }
       },
       order: [
-         ['email'],
+         [attribute],
       ],
       limit,
       offset: (offset - 1) * limit
