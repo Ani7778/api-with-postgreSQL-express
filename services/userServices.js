@@ -16,23 +16,7 @@ const { DEFAULT_PAGE, DEFAULT_LIMIT } = require('../utils/constants');
  */
 
 async function getUsers({limit = DEFAULT_LIMIT, offset = DEFAULT_PAGE, sortBy}) {
-   if (sortBy) {
-      const result = await Users.findAndCountAll({
-         attributes:  ['id', 'name', 'email'],
-         where: {
-            name: {
-               [Op.like]: '%e%'
-            }
-         },
-         order: [
-            [sortBy],
-         ],
-         limit,
-         offset: (offset - 1) * limit
-      });
-   }
-
-   const result = await Users.findAndCountAll({
+   let options = {
       attributes:  ['id', 'name', 'email'],
       where: {
          name: {
@@ -41,7 +25,16 @@ async function getUsers({limit = DEFAULT_LIMIT, offset = DEFAULT_PAGE, sortBy}) 
       },
       limit,
       offset: (offset - 1) * limit
-   });
+   };
+
+   if (sortBy) {
+      options.order = [sortBy];
+      const result = await Users.findAndCountAll(options);
+
+      return result;
+   }
+
+   const result = await Users.findAndCountAll(options);
 
    return result;
 }
