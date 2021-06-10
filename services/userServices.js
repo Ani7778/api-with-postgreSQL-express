@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const { extractSequlizeResponse } = require('../utils/helperFunctions');
 const generateAccessToken = require('../middleware/generateAccessToken');
 const ApiError = require('../middleware/ApiError');
-const { DEFAULT_PAGE, DEFAULT_LIMIT } = require('../utils/constants');
+const { DEFAULT_PAGE, DEFAULT_LIMIT, DEFAULT_ATTRIBUTE } = require('../utils/constants');
 
 /**
  *
@@ -15,7 +15,7 @@ const { DEFAULT_PAGE, DEFAULT_LIMIT } = require('../utils/constants');
  * @returns {Promise<*>}
  */
 
-async function getUsers({limit = DEFAULT_LIMIT, offset = DEFAULT_PAGE, attribute}) {
+async function getUsers({limit = DEFAULT_LIMIT, offset = DEFAULT_PAGE, attribute = DEFAULT_ATTRIBUTE}) {
    const result = await Users.findAndCountAll({
       attributes:  ['id', 'name', 'email'],
       where: {
