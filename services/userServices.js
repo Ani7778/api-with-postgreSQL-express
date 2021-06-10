@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const { extractSequlizeResponse } = require('../utils/helperFunctions');
 const generateAccessToken = require('../middleware/generateAccessToken');
 const ApiError = require('../middleware/ApiError');
-const { DEFAULT_PAGE, DEFAULT_LIMIT, DEFAULT_ATTRIBUTE } = require('../utils/constants');
+const { DEFAULT_PAGE, DEFAULT_LIMIT } = require('../utils/constants');
 
 /**
  *
@@ -15,7 +15,23 @@ const { DEFAULT_PAGE, DEFAULT_LIMIT, DEFAULT_ATTRIBUTE } = require('../utils/con
  * @returns {Promise<*>}
  */
 
-async function getUsers({limit = DEFAULT_LIMIT, offset = DEFAULT_PAGE, attribute = DEFAULT_ATTRIBUTE}) {
+async function getUsers({limit = DEFAULT_LIMIT, offset = DEFAULT_PAGE, sortBy}) {
+   if (sortBy) {
+      const result = await Users.findAndCountAll({
+         attributes:  ['id', 'name', 'email'],
+         where: {
+            name: {
+               [Op.like]: '%e%'
+            }
+         },
+         order: [
+            [sortBy],
+         ],
+         limit,
+         offset: (offset - 1) * limit
+      });
+   }
+
    const result = await Users.findAndCountAll({
       attributes:  ['id', 'name', 'email'],
       where: {
@@ -23,9 +39,6 @@ async function getUsers({limit = DEFAULT_LIMIT, offset = DEFAULT_PAGE, attribute
             [Op.like]: '%e%'
          }
       },
-      order: [
-         [attribute],
-      ],
       limit,
       offset: (offset - 1) * limit
    });
