@@ -29,9 +29,6 @@ async function getUsers({limit = DEFAULT_LIMIT, offset = DEFAULT_PAGE, sortBy}) 
 
    if (sortBy) {
       options.order = [sortBy];
-      const result = await Users.findAndCountAll(options);
-
-      return result;
    }
 
    const result = await Users.findAndCountAll(options);
@@ -46,7 +43,7 @@ async function getUsers({limit = DEFAULT_LIMIT, offset = DEFAULT_PAGE, sortBy}) 
  */
 
 async function getSingleUser(id) {
-   const result = await User.findByPk(id);
+   const result = await Users.findByPk(id);
 
    if(!result) {
       throw ApiError.notFound("User not found");
@@ -61,8 +58,10 @@ async function getSingleUser(id) {
  * @returns {Promise<*>}
  */
 
-async function addUser(user) {
+async function addUser(user, password) {
    const result = await Users.create(user);
+
+   const hashPassword = bcrypt.hashSync(password, 7);
 
    return result;
 }
@@ -76,6 +75,8 @@ async function addUser(user) {
 
 async function loginUser(email, password) {
    const user = await Users.findOne({where: {email}});
+   console.log("userghghghghghghghghghhg")
+   console.log(user)
 
    const validPassword = bcrypt.compareSync(password, user.password)
 
@@ -87,7 +88,6 @@ async function loginUser(email, password) {
 
    console.log(accessToken);
    return accessToken;
-
 }
 
 /**
@@ -97,7 +97,11 @@ async function loginUser(email, password) {
  */
 
 async function deleteUser(id) {
-   const result = User.destroy({where: id});
+   const result = Users.destroy({where: id});
+
+   if(!result) {
+      throw ApiError.notFound("User not found");
+   }
 
    return result;
 }
@@ -112,7 +116,7 @@ async function deleteUser(id) {
  */
 
 async function updateUser(id, name, email, password) {
-   const result = User.update(updateUser,
+   const result = Users.update(updateUser,
          {where: {id: id}
       });
 

@@ -37,7 +37,6 @@ router.post('/', async function (req, res, next) {
     }
 
     const password = req.body.password;
-    const hashPassword = bcrypt.hashSync(password, 7);
 
     const user = {
         name: req.body.name,

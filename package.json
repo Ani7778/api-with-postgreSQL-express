@@ -1,10 +1,14 @@
 {
   "name": "userapi",
+  "jest": {
+    "verbose": true
+  },
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node userAPI.js"
+    "test": "jest",
+    "start": "node userAPI.js",
+    "jest": "node ./packages/jest-cli/bin/jest.js"
   },
   "author": "",
   "license": "ISC",
@@ -24,6 +28,8 @@
   "description": "",
   "devDependencies": {
     "dotenv": "^10.0.0",
-    "nodemon": "^2.0.7"
+    "jest": "^27.0.4",
+    "nodemon": "^2.0.7",
+    "supertest": "^6.1.3"
   }
 }
