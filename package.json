@@ -1,14 +1,11 @@
 {
   "name": "userapi",
-  "jest": {
-    "verbose": true
-  },
+
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "node userAPI.js",
-    "jest": "node ./packages/jest-cli/bin/jest.js"
+    "start": "node userAPI.js"
   },
   "author": "",
   "license": "ISC",

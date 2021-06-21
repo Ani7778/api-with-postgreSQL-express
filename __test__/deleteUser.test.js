@@ -1,13 +1,10 @@
 const express = require("express");
 const { deleteUser } = require('../services/userServices');
-const app = require('../userAPI');
-
 const ApiError = require('../middleware/ApiError');
 
 jest.mock('../models/index');
 
 const { db: { models: { user: Users } } } = require('../models/index');
-
 
 describe('Delete user by ID', ()=> {
     test("Delete user by ID successfully", async () => {

@@ -1,7 +1,5 @@
 const express = require("express");
 const { updateUser } = require('../services/userServices');
-const app = require('../userAPI');
-const ApiError = require('../middleware/ApiError');
 
 jest.mock('../models/index');
 

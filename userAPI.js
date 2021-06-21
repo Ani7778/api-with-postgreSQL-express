@@ -20,5 +20,3 @@ app.listen(port, function () {
     // db.sync();
     console.log(`Listening on port ${port} ...`)
 });
-
-module.exports = app;
