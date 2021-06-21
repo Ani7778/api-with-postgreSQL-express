@@ -1,9 +1,6 @@
 const express = require("express");
 const { getSingleUser } = require('../services/userServices');
-const app = require('../userAPI');
 const bcrypt = require('bcrypt');
-
-const ApiError = require('../middleware/ApiError');
 
 jest.mock('../models/index');
 jest.mock('bcrypt');
